@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-REPO_URL=${1:-"https://github.com/psf/requests.git"}
+REPO_URL=${1:-""}
 CLONE_DIR=${2:-""}
 BRANCH_NAME=${3:-"main"}
 
