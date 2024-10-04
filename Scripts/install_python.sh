@@ -3,12 +3,15 @@
 # Set up Python
 echo "Setting up Python $PYTHON_VERSION"
 
+export PYENV_ROOT="/home/devtestlab/pyenv"
+echo 'export PYENV_ROOT="/home/devtestlab/pyenv"' >> ~/.bashrc
+
 # Install pyenv
 curl https://pyenv.run | bash
 
 # Add pyenv to PATH and initialize
-export PATH="$HOME/.pyenv/bin:$PATH"
-echo 'export PATH="/home/devtestlab/.pyenv/bin:$PATH"' >> ~/.bashrc
+export PATH="$PYENV_ROOT/bin:$PATH"
+echo 'export PATH="/home/devtestlab/pyenv/bin:$PATH"' >> ~/.bashrc
 
 eval "$(pyenv init --path)"
 echo 'eval "$(pyenv init --path)"' >> ~/.bashrc
