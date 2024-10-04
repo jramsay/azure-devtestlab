@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Variables
-PYTHON_VERSION=${1:-"3.12"}
+export HOME=$(pwd)
+PYTHON_VERSION="3.12"
 
 # Set up Python
 
@@ -11,7 +12,7 @@ echo "Setting up Python $PYTHON_VERSION"
 curl https://pyenv.run | bash
 
 # Add pyenv to PATH and initialize
-export HOME=$(pwd)
+
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
