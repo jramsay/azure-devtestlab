@@ -8,7 +8,7 @@ curl https://pyenv.run | bash
 
 # Add pyenv to PATH and initialize
 export PATH="$HOME/.pyenv/bin:$PATH"
-echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.bashrc
+echo 'export PATH="/home/devtestlab/.pyenv/bin:$PATH"' >> ~/.bashrc
 
 eval "$(pyenv init --path)"
 echo 'eval "$(pyenv init --path)"' >> ~/.bashrc
@@ -27,3 +27,5 @@ pip install --upgrade pip
 pip install pip-cache
 
 echo "Python $PYTHON_VERSION setup complete with pip cache enabled."
+
+ln -s /usr/bin/python3.12 /usr/bin/python
