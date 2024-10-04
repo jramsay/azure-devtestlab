@@ -1,0 +1,15 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Azure/azure-devtestlab/master/schemas/2016-11-28/dtlArtifacts.json",
+    "title": "Python",
+    "publisher": "Microsoft",
+    "description": "Install Python on Linux",
+    "tags": [
+        "Python",
+        "Linux"
+    ],
+    "iconUri": "https://community.chocolatey.org/content/packageimages/python.3.13.0-rc2.svg",
+    "targetOsType": "Linux",
+    "runCommand": {
+        "commandToExecute": "['sh linux_install_python_v1.sh']"
+    }
+}
