@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Variables
-export HOME=$(pwd)
+export HOME="/home/jasonra"
+mkdir -p $HOME
 PYTHON_VERSION="3.12"
 
 # Set up Python
