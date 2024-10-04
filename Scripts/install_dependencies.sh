@@ -1,9 +1,10 @@
 #!/bin/bash
 
 export HOME=${1:-"/home/devtestlab"}
-export PYTHON_VERSION=${2:-"3.12"}
 
 mkdir -p $HOME
 cp *.sh $HOME
 cd $HOME
-sh $HOME/install_python.sh
+ln -s /usr/bin/python3 /usr/bin/python
+python3 -m venv myenv
+source myenv/bin/activate
