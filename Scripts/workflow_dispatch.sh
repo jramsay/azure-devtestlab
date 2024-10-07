@@ -12,18 +12,18 @@ cd $HOME
 
 source virtual_env/bin/activate
 
-if [ -n $REPO ]; then
+if [ -n "$REPO" ]; then
     echo "Cloning repo: $REPO"
     git clone $REPO $CLONE_DIR
     cd $CLONE_DIR
-    if [ -n $REF ]; then
+    if [ -n "$REF" ]; then
         echo "Check out ref: $REF"
         git checkout $REF
     fi
     echo "Repository cloned."
 fi
 
-if [ -n $PATCH ]; then
+if [ -n "$PATCH" ]; then
     echo "Patch input provided. Applying patch: $PATCH"
     cd $HOME/$CLONE_DIR
     echo $PATCH | base64 --decode | sed 's/\r$//'  > patch.diff
@@ -36,7 +36,7 @@ if [ -n $PATCH ]; then
     }
 fi
 
-if [ -n $COMMAND ]; then
+if [ -n "$COMMAND" ]; then
     echo "Start running custom command: $COMMAND"
     cd $HOME/$CLONE_DIR
     echo "${{ $COMMAND }}"
