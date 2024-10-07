@@ -7,7 +7,7 @@ PATCH=${3:-""}
 COMMAND=${4:-""}
 
 HOME="/home/devtestlab"
-CLONE_DIR = "test_repo"
+CLONE_DIR="test_repo"
 cd $HOME
 
 source virtual_env/bin/activate
