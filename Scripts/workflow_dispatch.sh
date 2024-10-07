@@ -24,6 +24,7 @@ fi
 
 if [ -n $PATCH ]; then
     echo "Patch input provided. Applying patch..."
+    cd $HOME/$CLONE_DIR
     echo $PATCH | base64 --decode | sed 's/\r$//'  > patch.diff
     echo "Decoded patch content:"
     cat patch.diff
@@ -35,7 +36,8 @@ if [ -n $PATCH ]; then
 fi
 
 if [ -n $COMMAND ]; then
-     echo "Start running custom command"
+    echo "Start running custom command"
+    cd $HOME/$CLONE_DIR
     echo "${{ $COMMAND }}"
     output=$(echo "${{ $COMMAND }}" | base64 --decode | sed 's/\r$//')
     echo "Decoded custom command is:"
@@ -43,5 +45,16 @@ if [ -n $COMMAND ]; then
     echo "Command output:"
     eval $output
     echo "RAN_CUSTOM_COMMAND=true" >> $GITHUB_ENV
-    echo "Finished running command!"
+    echo "Finished running command"
+fi
+
+if if [ -n "$REPO" ] || [ -n "$PATCH" ] || [ -n "$COMMAND" ] || [ -n "$REF" ] then
+    cd $HOME/$CLONE_DIR
+
+    echo "Building"
+    make
+
+    echo "Running Tests"
+    make ci
+    echo "Finished running tests"
 fi
