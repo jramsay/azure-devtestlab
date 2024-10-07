@@ -6,11 +6,9 @@ REF=${2:-""}
 PATCH=${3:-""}
 COMMAND=${4:-""}
 
-HOME="/home/devtestlab"
+DTLHOME="/home/devtestlab"
 CLONE_DIR="test_repo"
-cd $HOME
-
-source virtual_env/bin/activate
+cd $DTLHOME
 
 if [ -n "$REPO" ]; then
     echo "Cloning repo: $REPO"
@@ -25,7 +23,7 @@ fi
 
 if [ -n "$PATCH" ]; then
     echo "Patch input provided. Applying patch: $PATCH"
-    cd $HOME/$CLONE_DIR
+    cd $DTLHOME/$CLONE_DIR
     echo $PATCH | base64 --decode | sed 's/\r$//'  > patch.diff
     echo "Decoded patch content:"
     cat patch.diff
@@ -38,7 +36,7 @@ fi
 
 if [ -n "$COMMAND" ]; then
     echo "Start running custom command: $COMMAND"
-    cd $HOME/$CLONE_DIR
+    cd $DTLHOME/$CLONE_DIR
     echo "${{ $COMMAND }}"
     output=$(echo "${{ $COMMAND }}" | base64 --decode | sed 's/\r$//')
     echo "Decoded custom command is:"
@@ -50,7 +48,10 @@ if [ -n "$COMMAND" ]; then
 fi
 
 if [ -n "$REPO" ] || [ -n "$PATCH" ] || [ -n "$COMMAND" ] || [ -n "$REF" ]; then
-    cd $HOME/$CLONE_DIR
+    cd $DTLHOME/$CLONE_DIR
+
+    python3 -m venv virtual_env
+    source virtual_env/bin/activate
 
     echo "Building"
     make
