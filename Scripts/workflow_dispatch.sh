@@ -49,7 +49,7 @@ if [ -n "$COMMAND" ]; then
     echo "Finished running command"
 fi
 
-if if [ -n "$REPO" ] || [ -n "$PATCH" ] || [ -n "$COMMAND" ] || [ -n "$REF" ] then
+if [ -n "$REPO" ] || [ -n "$PATCH" ] || [ -n "$COMMAND" ] || [ -n "$REF" ] then
     cd $HOME/$CLONE_DIR
 
     echo "Building"
