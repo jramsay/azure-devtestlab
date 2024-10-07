@@ -10,6 +10,8 @@ HOME="/home/devtestlab"
 CLONE_DIR = "test_repo"
 cd $HOME
 
+source virtual_env/bin/activate
+
 if [ -n $REPO ]; then
     echo "Cloning repo..."
     git clone $REPO $CLONE_DIR
