@@ -51,7 +51,7 @@ if [ -n "$REPO" ] || [ -n "$PATCH" ] || [ -n "$COMMAND" ] || [ -n "$REF" ]; then
     cd $DTLHOME/$CLONE_DIR
 
     python3 -m venv virtual_env
-    source virtual_env/bin/activate
+    . virtual_env/bin/activate
 
     echo "Building"
     make
