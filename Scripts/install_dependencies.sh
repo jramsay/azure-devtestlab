@@ -8,6 +8,7 @@ cp *.py $HOME
 cd $HOME
 ln -s /usr/bin/python3 /usr/bin/python
 python3 -m venv virtual_env
+. virtual_env/bin/activate
 
 pip3 install Flask
 
