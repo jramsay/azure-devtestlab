@@ -14,8 +14,6 @@ pip3 install Flask
 
 echo "Python app launched with PID: $pid"
 
-apt-get update
-apt-get install curl
 curl -sL https://aka.ms/DevTunnelCliInstall | bash
-. ~/.bashrc
+source ~/.bashrc
 
