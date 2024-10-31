@@ -32,7 +32,7 @@ else
         echo "Create port succeeded"
         port_number=$(echo "$output" | grep "Port Number" | awk -F ': ' '{print $2}')
         echo "Port Number: $port_number"
-        exho "Connection Uri: https://$tunnel_id.use.devtunnels.ms:$port_number
+        echo "Connection Uri: https://$tunnel_id.use.devtunnels.ms:$port_number"
     fi
 fi
 
