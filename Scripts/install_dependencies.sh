@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export DEBIAN_FRONTEND=noninteractive
+
 export HOME=${1:-"/home/devtestlab"}
 
 mkdir -p $HOME
@@ -15,5 +17,5 @@ pip3 install Flask
 echo "Python app launched with PID: $pid"
 
 curl -sL https://aka.ms/DevTunnelCliInstall | bash
-source ~/.bashrc
+. ~/.bashrc
 
