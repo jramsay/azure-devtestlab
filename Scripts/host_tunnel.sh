@@ -3,10 +3,14 @@
 # Variables
 PORT_NUMBER=${1:-5000}
 
+DTLHOME="/home/devtestlab"
+cd $DTLHOME
+
+curl -sL https://aka.ms/DevTunnelCliInstall | bash
+. ~/.bashrc
+
 python3 app.py &
 pid=$!
-
-. ~/.bashrc
 
 output=$(devtunnel login --mi-client-id 8286efbb-1b94-4821-8876-b87156372c08)
 echo "$output"
