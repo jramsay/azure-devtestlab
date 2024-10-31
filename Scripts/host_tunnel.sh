@@ -3,8 +3,8 @@
 # Variables
 PORT_NUMBER=${1:-5000}
 
-DTLHOME="/home/devtestlab"
-cd $DTLHOME
+export HOME="/home/devtestlab"
+cd $HOME
 
 python3 -m venv virtual_env
 . virtual_env/bin/activate
