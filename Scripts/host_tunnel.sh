@@ -32,12 +32,7 @@ else
         echo "Create port succeeded"
         port_number=$(echo "$output" | grep "Port Number" | awk -F ': ' '{print $2}')
         echo "Port Number: $port_number"
-        output=$( { $HOME/bin/devtunnel host & } 2>&1 )
-        exit_status=$?
-        if [ $exit_status -ne 0 ]; then
-            echo "Hosting tunnel failed: $output"
-        else
+        $HOME/bin/devtunnel host &
         echo "Connection Uri: https://$tunnel_id.devtunnels.ms:$port_number"
-        fi
     fi
 fi
