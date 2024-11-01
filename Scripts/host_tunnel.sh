@@ -24,12 +24,20 @@ else
     tunnel_id=$(echo "$output" | grep "Tunnel ID" | awk -F ': ' '{print $2}')
     echo "Tunnel ID: $tunnel_id"
 
-    $output=$(devtunnel host $tunnel_id -p $PORT_NUMBER 2>&1 > /dev/null &)
+    output=$($HOME/bin/devtunnel port create -p $PORT_NUMBER 2>&1)
     exit_status=$?
     if [ $exit_status -ne 0 ]; then
-        echo "Hosting tunnel on port $PORT_NUMBER failed: $output"
+        echo "Create port failed: $output"
     else
-        echo "Hosting tunnel succeeded"
+        echo "Create port succeeded"
+        port_number=$(echo "$output" | grep "Port Number" | awk -F ': ' '{print $2}')
+        echo "Port Number: $port_number"
+        output=$( { $HOME/bin/devtunnel host & } 2>&1 )
+        exit_status=$?
+        if [ $exit_status -ne 0 ]; then
+            echo "Hosting tunnel failed: $output"
+        else
         echo "Connection Uri: https://$tunnel_id.devtunnels.ms:$port_number"
+        fi
     fi
 fi
