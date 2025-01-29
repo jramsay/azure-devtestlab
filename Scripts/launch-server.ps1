@@ -1,3 +1,5 @@
+Set-Location -Path "C:\AI-Incubation\src\AutomatedTests"
+
 $tunnelScript = "C:\setup\start-devtunnel.ps1"
 Start-Process powershell -ArgumentList "-NoExit -File `"$tunnelScript`""
 
