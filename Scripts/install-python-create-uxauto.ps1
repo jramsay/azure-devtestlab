@@ -2,7 +2,7 @@
 cd C:\
 
 #Clone the repository
-git clone https://$token@devdiv.visualstudio.com/DefaultCollection/DevDiv/_git/AI-Incubation
+# git clone https://$token@devdiv.visualstudio.com/DefaultCollection/DevDiv/_git/AI-Incubation
 
 # Install Python
 $pythonUrl = "https://www.python.org/ftp/python/3.12.7/python-3.12.7-amd64.exe"
@@ -38,5 +38,3 @@ Set-Content -Path $uxautoPath -Value $uxautoContent
 # open a new window before installing conda
 $condaScript = "C:\setup\install-conda.ps1"
 Start-Process powershell -ArgumentList "-NoExit -File `"$condaScript`""
-
-exit

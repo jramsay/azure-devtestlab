@@ -24,8 +24,6 @@ conda create -n uitesting python=3.12 -y
 
 conda init
 
-# open a new window before launching server
-$serverScript = "C:\setup\launch-server.ps1"
-Start-Process powershell -ArgumentList "-NoExit -File `"$serverScript`""
-
-exit
+# # open a new window before launching server
+# $serverScript = "C:\setup\launch-server.ps1"
+# Start-Process powershell -ArgumentList "-NoExit -File `"$serverScript`""
