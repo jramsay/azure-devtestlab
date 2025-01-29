@@ -3,7 +3,7 @@
 # Set up Python
 echo "Setting up Python $PYTHON_VERSION"
 
-export PYENV_ROOT="/home/devtestlab/pyenv"
+export $="/home/devtestlab/pyenv"
 echo 'export PYENV_ROOT="/home/devtestlab/pyenv"' >> ~/.bashrc
 
 # Install pyenv
