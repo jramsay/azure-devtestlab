@@ -17,7 +17,7 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "User")
 conda --version
 
 # Change directory to the AutomatedTests folder
-cd C:\AI-Incubation\src\AutomatedTests
+Set-Location -Path "C:\AI-Incubation\src\AutomatedTests"
 
 # Create a new Conda environment
 conda create -n uitesting python=3.12 -y

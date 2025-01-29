@@ -1,5 +1,5 @@
 # Change directory to C:\
-cd C:\
+Set-Location -Path "C:\"
 
 #Clone the repository
 # git clone https://$token@devdiv.visualstudio.com/DefaultCollection/DevDiv/_git/AI-Incubation
