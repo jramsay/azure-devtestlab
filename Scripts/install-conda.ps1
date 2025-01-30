@@ -8,10 +8,10 @@ Invoke-WebRequest -Uri $condaUrl -OutFile $destination
 Start-Process -FilePath $destination -ArgumentList "/S /InstallationType=AllUsers /AddToPath=1 /RegisterPython=0" -Wait
 
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\ProgramData\miniconda3\condabin", "User")
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\ProgramData\miniconda3\condabin", "Machine")
 
 # Refresh the environment variables in the current session
-$env:Path = [System.Environment]::GetEnvironmentVariable("Path", "User")
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 
 # Verify installation
 conda --version
