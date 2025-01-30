@@ -7,8 +7,8 @@ if (-Not (Test-Path -Path $destinationDirectory)) {
 
 Copy-Item -Path "$sourceDirectory\*" -Destination $destinationDirectory -Recurse
 
-Set-Location -Path "C:\setup"
+# Set-Location -Path "C:\setup"
 
-$entryPath = "C:\setup\install-python-create-uxauto.ps1"
+# $entryPath = "C:\setup\install-python-create-uxauto.ps1"
 
-Invoke-Expression -Command $entryPath
+# Invoke-Expression -Command $entryPath
