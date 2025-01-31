@@ -1,7 +1,7 @@
 param (
     [string]$testIds,
     [string]$gitHubToken,
-    [string]$commentsUrl,
+    [string]$issuePath,
     [string]$repoUrl
 )
 
@@ -12,7 +12,9 @@ pip install autogen-agentchat==0.2.37
 
 Write-Output "testIds: $testIds"
 Write-Output "gitHubToken: $gitHubToken"
-Write-Output "commentsUrl: $commentsUrl"
+Write-Output "issuePath: $issuePath"
 Write-Output "repoUrl: $repoUrl"
 
-python .\suite_runner.py --mode azdo --azdo_tcids $testIds
+python .\suite_runner.py --mode azdo --azdo_tcids $testIds --gh_pat $gitHubToken --gh_issue $issuePath
+
+# python .\suite_runner.py --mode azdo --azdo_tcids $testIds
