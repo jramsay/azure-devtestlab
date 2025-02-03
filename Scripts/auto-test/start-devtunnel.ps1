@@ -1,6 +1,3 @@
-# Change directory to C:\
-cd C:\
-
 # Install DevTunnels silently
 Invoke-WebRequest -Uri https://aka.ms/TunnelsCliDownload/win-x64 -OutFile devtunnel.exe
 

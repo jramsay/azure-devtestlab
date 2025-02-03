@@ -7,11 +7,11 @@ Invoke-WebRequest -Uri $condaUrl -OutFile $destination
 
 Start-Process -FilePath $destination -ArgumentList "/S /InstallationType=AllUsers /AddToPath=1 /RegisterPython=0" -Wait
 
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\ProgramData\miniconda3\condabin", "User")
+Set-ExecutionPolicy RemoteSigned -Scope LocalMachine
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\ProgramData\miniconda3\condabin", "Machine")
 
 # Refresh the environment variables in the current session
-$env:Path = [System.Environment]::GetEnvironmentVariable("Path", "User")
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 
 # Verify installation
 conda --version
@@ -23,7 +23,3 @@ Set-Location -Path "C:\AI-Incubation\src\AutomatedTests"
 conda create -n uitesting python=3.12 -y
 
 conda init
-
-# # open a new window before launching server
-$serverScript = "C:\setup\launch-server.ps1"
-Start-Process powershell -ArgumentList "-NoExit -File `"$serverScript`""
