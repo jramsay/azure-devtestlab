@@ -1,4 +1,6 @@
-# Install Miniconda
+param (
+    [string]$repoPath = "C:\AI-Incubation\src\AutomatedTests"
+)
 
 $condaUrl = "https://repo.anaconda.com/miniconda/Miniconda3-py312_24.11.1-0-Windows-x86_64.exe"
 $destination = "$env:TEMP\\miniconda.exe"
@@ -10,16 +12,12 @@ Start-Process -FilePath $destination -ArgumentList "/S /InstallationType=AllUser
 Set-ExecutionPolicy RemoteSigned -Scope LocalMachine
 [Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\ProgramData\miniconda3\condabin", "Machine")
 
-# Refresh the environment variables in the current session
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 
-# Verify installation
 conda --version
 
-# Change directory to the AutomatedTests folder
-Set-Location -Path "C:\AI-Incubation\src\AutomatedTests"
+Set-Location -Path $repoPath
 
-# Create a new Conda environment
 conda create -n uitesting python=3.12 -y
 
 conda init

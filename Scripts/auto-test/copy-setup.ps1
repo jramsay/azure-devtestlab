@@ -1,5 +1,9 @@
+param (
+    [string]$setupPath = "C:\setup"
+)
+
 $sourceDirectory = Get-Location
-$destinationDirectory = "C:\setup"
+$destinationDirectory = $setupPath
 
 if (-Not (Test-Path -Path $destinationDirectory)) {
     New-Item -ItemType Directory -Path $destinationDirectory
