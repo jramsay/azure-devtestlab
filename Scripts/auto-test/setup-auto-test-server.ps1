@@ -15,10 +15,6 @@ $condaProcess = Start-Process powershell -ArgumentList "-File `"$condaScript`"" 
 $condaProcess.WaitForExit()
 Write-Output "Conda installation completed."
 
-Write-Output "Starting dev tunnel..."
-$startDevTunnel = "$setupPath\start-devtunnel.ps1"
-Start-Process powershell -ArgumentList "-NoExit -File `"$startDevTunnel`""
-
-Write-Output "Launching server..."
-$serverScript = "$setupPath\launch-server.ps1"
-Start-Process powershell -ArgumentList "-NoExit -File `"$serverScript`""
+Write-Output "Installing dev tunnel..."
+$installDevTunnel = "$setupPath\install-devtunnel.ps1"
+Invoke-Expression -Command $installDevTunnel
