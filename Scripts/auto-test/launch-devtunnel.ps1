@@ -30,7 +30,7 @@ if ($exit_status -ne 0) {
             Write-Output "Create port failed: $output"
         } else {
             Write-Output "Create port succeeded"
-	    $regex = [regex]::Match($output, "Port Number\s*:\s*(\d+)")
+	        $regex = [regex]::Match($output, "Port Number\s*:\s*(\d+)")
             $port_number = $regex.Groups[1].Value
             if ($port_number) {
                 Write-Output "Port Number: $port_number"

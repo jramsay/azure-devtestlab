@@ -4,8 +4,3 @@ $destination = "$env:TEMP\\python_installer.exe"
 Invoke-WebRequest -Uri $pythonUrl -OutFile $destination
 
 Start-Process -FilePath $destination -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -Wait
-
-Set-ExecutionPolicy RemoteSigned -Scope LocalMachine
-[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\Python312", "Machine")
-
-$env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
