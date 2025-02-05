@@ -10,3 +10,7 @@ if (-Not (Test-Path -Path $destinationDirectory)) {
 }
 
 Copy-Item -Path "$sourceDirectory\*" -Destination $destinationDirectory -Recurse
+
+Write-Output "Set up server..."
+$setupServer = "$setupPath\setup-auto-test-server.ps1"
+Invoke-Expression -Command $setupServer
