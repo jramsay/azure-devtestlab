@@ -2,6 +2,8 @@ param (
     [string]$setupPath = "C:\setup"
 )
 
+Set-Location -Path $setupPath
+
 Set-ExecutionPolicy RemoteSigned -Scope LocalMachine
 [Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\Python312", "Machine")
 
@@ -9,7 +11,7 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 
 Write-Output "Launching server..."
 $launchServer = "$setupPath\launch-server.ps1"
-Start-Process powershell -ArgumentList "-NoExit -File `"$launchServer`""
+Start-Process powershell -ArgumentList "-NoExit -File `"$launchServer`"" -RedirectStandardOutput "server-log.txt"
 
 Write-Output "Starting dev tunnel..."
 $launchDevTunnel = "$setupPath\launch-devtunnel.ps1"

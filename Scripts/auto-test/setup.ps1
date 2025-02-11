@@ -27,3 +27,7 @@ Write-Output "Conda installation completed."
 Write-Output "Installing dev tunnel..."
 $installDevTunnel = "$setupPath\install-devtunnel.ps1"
 Invoke-Expression -Command $installDevTunnel
+
+Write-Output "Launching server and tunnel..."
+$launchServer = "$setupPath\launch-server-and-tunnel.ps1"
+Invoke-Expression -Command $launchServer
