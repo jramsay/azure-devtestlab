@@ -8,8 +8,8 @@ param (
 
 Set-Location -Path $suiteRunnerPath
 
-conda activate uitesting
-pip install autogen-agentchat==0.2.37
+uv sync
+.venv\Scripts\activate
 
 Write-Output "testIds: $testIds"
 Write-Output "gitHubToken: $gitHubToken"
