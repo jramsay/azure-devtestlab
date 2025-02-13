@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Azure/azure-devtestlab/master/schemas/2016-11-28/dtlArtifacts.json",
-  "title": "Execute PowerShell Script",
-  "description": "Executes a PowerShell script with extensive logging.",
+  "title": "Execute PowerShell Script Jason",
+  "description": "Executes a PowerShell script with extensive logging. Jason",
   "tags": [
     "Windows",
     "PowerShell"

@@ -115,29 +115,29 @@ try {
     finally {
         Stop-ArtifactLogging -LogFile $logFile
 
-        if ($PsCmdlet.ParameterSetName.StartsWith('UploadLog')) {
-            if ($LogsDropFilesToInclude -and $LogsDropFilesToExclude) {
-                New-FilesSnapshot -IncludeGlobPatterns $LogsDropFilesToInclude -ExcludeGlobPatterns $LogsDropFilesToExclude -SearchDirectory '/' -SnapshotDestinationDirectory $LogsDirectory -SnapshotName "Snapshot-$(Get-Date -Format FileDateTimeUniversal)"
-            }
-            elseif ($LogsDropFilesToInclude) {
-                New-FilesSnapshot -IncludeGlobPatterns $LogsDropFilesToInclude -SearchDirectory '/' -SnapshotDestinationDirectory $LogsDirectory -SnapshotName "Snapshot-$(Get-Date -Format FileDateTimeUniversal)"
-            }
+        # if ($PsCmdlet.ParameterSetName.StartsWith('UploadLog')) {
+        #     if ($LogsDropFilesToInclude -and $LogsDropFilesToExclude) {
+        #         New-FilesSnapshot -IncludeGlobPatterns $LogsDropFilesToInclude -ExcludeGlobPatterns $LogsDropFilesToExclude -SearchDirectory '/' -SnapshotDestinationDirectory $LogsDirectory -SnapshotName "Snapshot-$(Get-Date -Format FileDateTimeUniversal)"
+        #     }
+        #     elseif ($LogsDropFilesToInclude) {
+        #         New-FilesSnapshot -IncludeGlobPatterns $LogsDropFilesToInclude -SearchDirectory '/' -SnapshotDestinationDirectory $LogsDirectory -SnapshotName "Snapshot-$(Get-Date -Format FileDateTimeUniversal)"
+        #     }
         
-            if ($PsCmdlet.ParameterSetName.EndsWith('ManagedIdentity')) {
-                $LogsDropServiceAccessToken = Get-AccessTokenUsingManagedIdentity -ClientID $LogsDropServiceManagedIdentityClientID
-            }
-            Publish-ArtifactLogs -LogsDropServiceURL $LogsDropServiceURL -LogsDropName $LogsDropName -LogsDirectory $LogsDirectory -AccessToken $LogsDropServiceAccessToken
-        }
+        #     if ($PsCmdlet.ParameterSetName.EndsWith('ManagedIdentity')) {
+        #         $LogsDropServiceAccessToken = Get-AccessTokenUsingManagedIdentity -ClientID $LogsDropServiceManagedIdentityClientID
+        #     }
+        #     Publish-ArtifactLogs -LogsDropServiceURL $LogsDropServiceURL -LogsDropName $LogsDropName -LogsDirectory $LogsDirectory -AccessToken $LogsDropServiceAccessToken
+        # }
     }
 }
 catch {
 
-    if ($PsCmdlet.ParameterSetName.StartsWith('UploadLog')) {
-        if ($PsCmdlet.ParameterSetName.EndsWith('ManagedIdentity')) {
-            $LogsDropServiceAccessToken = Get-AccessTokenUsingManagedIdentity -ClientID $LogsDropServiceManagedIdentityClientID
-        }
-        Complete-ArtifactLogsDrop -LogsDropServiceURL $LogsDropServiceURL -LogsDropName $LogsDropName -AccessToken $LogsDropServiceAccessToken
-    }
+    # if ($PsCmdlet.ParameterSetName.StartsWith('UploadLog')) {
+    #     if ($PsCmdlet.ParameterSetName.EndsWith('ManagedIdentity')) {
+    #         $LogsDropServiceAccessToken = Get-AccessTokenUsingManagedIdentity -ClientID $LogsDropServiceManagedIdentityClientID
+    #     }
+    #     Complete-ArtifactLogsDrop -LogsDropServiceURL $LogsDropServiceURL -LogsDropName $LogsDropName -AccessToken $LogsDropServiceAccessToken
+    # }
 
     throw
 }
