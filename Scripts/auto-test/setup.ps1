@@ -13,20 +13,20 @@ Copy-Item -Path "$sourceDirectory\*" -Destination $destinationDirectory -Recurse
 
 Set-Location -Path $setupPath
 
+Unregister-ScheduledTask -TaskName "RunScriptAfterLogon" -Confirm:$false
+
 Write-Output "Installing python..."
 $installPython = "$setupPath\install-python.ps1"
 Invoke-Expression -Command $installPython
 Write-Output "Python installation completed."
 
-Write-Output "Installing conda..."
-$condaScript = "$setupPath\install-conda.ps1"
-$condaProcess = Start-Process powershell -ArgumentList "-File `"$condaScript`"" -PassThru
-$condaProcess.WaitForExit()
-Write-Output "Conda installation completed."
+Write-Output "Installing uv..."
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+$env:Path = "C:\Users\$env:USERNAME\.local\bin;$env:Path"
+Write-Output "UV installation completed."
 
 Write-Output "Installing dev tunnel..."
-$installDevTunnel = "$setupPath\install-devtunnel.ps1"
-Invoke-Expression -Command $installDevTunnel
+Invoke-WebRequest -Uri https://aka.ms/TunnelsCliDownload/win-x64 -OutFile devtunnel.exe
 
 Write-Output "Launching server and tunnel..."
 $launchServer = "$setupPath\launch-server-and-tunnel.ps1"
