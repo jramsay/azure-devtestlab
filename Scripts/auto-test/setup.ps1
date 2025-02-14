@@ -27,6 +27,6 @@ Invoke-WebRequest -Uri https://aka.ms/TunnelsCliDownload/win-x64 -OutFile devtun
 
 # Create a scheduled task to launch the server & tunnel at startup after autologon
 $launchServer = "$setupPath\launch-server-and-tunnel.ps1"
-schtasks /create /tn "RunScriptAtStartup" /tr "powershell.exe -File $launchServer" /sc onstart /rl highest /f
+schtasks /create /tn "RunScriptAtLogon" /tr "powershell.exe -File $launchServer" /sc onlogon /rl highest /f /it /z
 
 Restart-Computer -Force
