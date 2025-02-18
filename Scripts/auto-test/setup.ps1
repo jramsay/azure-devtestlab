@@ -4,6 +4,7 @@ param (
     [string]$setupPath = "C:\setup"
 )
 
+Write-Output "Copying files to setup directory..."
 $sourceDirectory = Get-Location
 $destinationDirectory = $setupPath
 
@@ -13,6 +14,7 @@ if (-Not (Test-Path -Path $destinationDirectory)) {
 
 Copy-Item -Path "$sourceDirectory\*" -Destination $destinationDirectory -Recurse
 
+Write-Output "Setting up Windows auto-logon..."
 $registryPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 Set-ItemProperty -Path $registryPath -Name "DefaultUserName" -Value $username
 Set-ItemProperty -Path $registryPath -Name "DefaultPassword" -Value $password
@@ -33,8 +35,8 @@ Write-Output "UV installation completed."
 Write-Output "Installing dev tunnel..."
 Invoke-WebRequest -Uri https://aka.ms/TunnelsCliDownload/win-x64 -OutFile devtunnel.exe
 
-# Create a scheduled task to launch the server & tunnel at startup after autologon
+# Create a scheduled task to launch the server & tunnel after autologon
 $launchServer = "$setupPath\launch-server-and-tunnel.ps1"
-schtasks /create /tn "RunScriptAtLogon" /tr "powershell.exe -File $launchServer" /sc onlogon /rl highest /f /it /z
+schtasks /create /tn "RunScriptAtLogon" /tr "powershell.exe -File $launchServer" /sc onlogon /rl highest /f /it
 
 Restart-Computer -Force
