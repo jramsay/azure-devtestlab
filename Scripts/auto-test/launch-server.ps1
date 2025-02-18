@@ -4,6 +4,7 @@ param (
 
 Set-Location -Path $repoPath
 
+$env:Path = "C:\Users\$env:USERNAME\.local\bin;$env:Path"
 uv sync
 .venv\Scripts\activate
 

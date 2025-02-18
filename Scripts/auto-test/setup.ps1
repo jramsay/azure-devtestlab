@@ -29,7 +29,6 @@ Write-Output "Python installation completed."
 
 Write-Output "Installing uv..."
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-$env:Path = "C:\Users\$env:USERNAME\.local\bin;$env:Path"
 Write-Output "UV installation completed."
 
 Write-Output "Installing dev tunnel..."
