@@ -4,6 +4,15 @@ param (
 
 Set-Location -Path $setupPath
 
+Write-Output "Installing python..."
+$installPython = "$setupPath\install-python.ps1"
+Invoke-Expression -Command $installPython
+Write-Output "Python installation completed."
+
+Write-Output "Installing uv..."
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+Write-Output "UV installation completed."
+
 Set-ExecutionPolicy RemoteSigned -Scope LocalMachine
 [Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\Python312", "Machine")
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
