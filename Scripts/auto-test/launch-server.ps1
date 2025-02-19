@@ -4,7 +4,7 @@ param (
 
 Set-Location -Path $repoPath
 
-$env:UV_HTTP_TIMEOUT="350s"
+$env:UV_HTTP_TIMEOUT=350
 
 $env:Path = "C:\Users\$env:USERNAME\.local\bin;$env:Path"
 uv sync
