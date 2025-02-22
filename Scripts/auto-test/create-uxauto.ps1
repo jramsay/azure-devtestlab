@@ -1,5 +1,5 @@
 param (
-    [string]$repoPath = "C:\\AI-Incubation\\src\\AutomatedTests"
+    [string]$repoPath
 )
 
 # Create uxauto.json file in the user's profile directory

@@ -1,5 +1,7 @@
 param (
-    [string]$setupPath = "C:\setup"
+    [string]$setupPath,
+    [string]$repoPath,
+    [int32]$tunnelPortNumber
 )
 
 Set-Location -Path $setupPath
@@ -19,11 +21,11 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 
 Write-Output "Launching server..."
 $launchServer = "$setupPath\launch-server.ps1"
-Start-Process powershell -ArgumentList "-NoExit -File `"$launchServer`"" -RedirectStandardOutput "$setupPath\launch-server-output.txt" -RedirectStandardError "$setupPath\launch-server-error.txt"
+Start-Process powershell -ArgumentList "-NoExit -File `"$launchServer`" -repoPath `"$repoPath`"" -RedirectStandardOutput "$setupPath\launch-server-output.txt" -RedirectStandardError "$setupPath\launch-server-error.txt"
 
 Write-Output "Starting dev tunnel..."
 $launchDevTunnel = "$setupPath\launch-devtunnel.ps1"
-Start-Process powershell -ArgumentList "-File `"$launchDevTunnel`"" -NoNewWindow -PassThru -RedirectStandardOutput "tunnel.txt"
+Start-Process powershell -ArgumentList "-File `"$launchDevTunnel`" -setupPath `"$setupPath`" -portNumber $tunnelPortNumber" -NoNewWindow -PassThru -RedirectStandardOutput "tunnel.txt"
 
 Write-Output "Minimize windows..."
 $minimize = "$setupPath\minimize-windows.ps1"

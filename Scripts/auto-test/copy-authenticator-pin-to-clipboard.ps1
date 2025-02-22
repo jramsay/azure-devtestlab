@@ -1,9 +1,6 @@
-param (
-    [string]$secretValue
-)
+. .\get-authenticator-pin.ps1
 
-# Git clone https://github.com/GregoireLD/Powershell-AuthGenerator.git
-
-Import-Module "C:\Powershell-AuthGenerator\Powershell-AuthGenerator.psm1"
-$secretCode = Get-AuthenticatorPin -Secret $secretValue
-Set-Clipboard -Value  ($secretCode.PINCode -replace ' ', '')
+az login --identity --client-id $env:managedIdentityClientId
+$secretKey = az keyvault secret show --name $env:azurePortalMFASecretKey --vault-name $env:keyvaultName --query value -o tsv >$null 2>&1
+Set-Clipboard -Value (Get-AuthenticatorPin -SecretKey $secretKey)
+Write-Output "Authenticator PIN Code was copied to the clipboard."

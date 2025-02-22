@@ -1,11 +1,12 @@
 param (
-    [string]$devTunnelPath = "C:\setup\devtunnel.exe",
-    [string]$managedIdentity = "8286efbb-1b94-4821-8876-b87156372c08",
-    [int32]$portNumber= 5000
+    [string]$setupPath,
+    [int32]$portNumber
 )
 
+$devTunnelPath = "$setupPath\devtunnel.exe"
+
 # Login to devtunnel
-$output = & "$devTunnelPath" login --mi-client-id $managedIdentity
+$output = & "$devTunnelPath" login --mi-client-id $env:managedIdentityClientId
 Write-Output $output
 
 # Create a new tunnel
