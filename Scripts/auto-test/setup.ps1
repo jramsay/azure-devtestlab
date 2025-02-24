@@ -12,6 +12,8 @@ param (
 )
 
 Write-Output "Store KV info to be used by other scripts."
+[System.Environment]::SetEnvironmentVariable("autoLoginUsername", $autoLoginUsername, [System.EnvironmentVariableTarget]::Machine)
+[System.Environment]::SetEnvironmentVariable("autoLoginPasswordSecretKey", $autoLoginPasswordSecretKey, [System.EnvironmentVariableTarget]::Machine)
 [System.Environment]::SetEnvironmentVariable("azurePortalUsernameSecretKey", $azurePortalUsernameSecretKey, [System.EnvironmentVariableTarget]::Machine)
 [System.Environment]::SetEnvironmentVariable("azurePortalPasswordSecretKey", $azurePortalPasswordSecretKey, [System.EnvironmentVariableTarget]::Machine)
 [System.Environment]::SetEnvironmentVariable("azurePortalMFASecretKey", $azurePortalMFASecretKey, [System.EnvironmentVariableTarget]::Machine)
@@ -32,7 +34,7 @@ $ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri https://aka.ms/
 
 Write-Output "Setting up Windows auto-logon..."
 $scriptPath = ".\setup-autologon.ps1"
-Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`" -autoLoginUsername `"$autoLoginUsername`" -autoLoginPasswordSecretKey `"$autoLoginPasswordSecretKey`"" -Wait
+Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`"" -Wait
 
 Write-Output "Installing dev tunnel..."
 Invoke-WebRequest -Uri https://aka.ms/TunnelsCliDownload/win-x64 -OutFile devtunnel.exe
