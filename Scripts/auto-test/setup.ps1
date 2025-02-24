@@ -1,5 +1,5 @@
 param (
-    [string]$autoLoginUsernameSecretKey,
+    [string]$autoLoginUsername,
     [string]$autoLoginPasswordSecretKey,
     [string]$azurePortalUsernameSecretKey,
     [string]$azurePortalPasswordSecretKey,
@@ -32,13 +32,13 @@ $ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri https://aka.ms/
 
 Write-Output "Setting up Windows auto-logon..."
 $scriptPath = ".\setup-autologon.ps1"
-Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`" -autoLoginUsernameSecretKey `"$autoLoginUsernameSecretKey`" -autoLoginPasswordSecretKey `"$autoLoginPasswordSecretKey`"" -Wait
+Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`" -autoLoginUsername `"$autoLoginUsername`" -autoLoginPasswordSecretKey `"$autoLoginPasswordSecretKey`"" -Wait
 
 Write-Output "Installing dev tunnel..."
 Invoke-WebRequest -Uri https://aka.ms/TunnelsCliDownload/win-x64 -OutFile devtunnel.exe
 
 Write-Output "Create a scheduled task to launch the server & tunnel after autologon"
 $launchServer = "$setupPath\launch-server-and-tunnel.ps1"
-schtasks /create /tn "RunScriptAtLogon" /tr "powershell.exe -File $launchServer -setupPath $setupPath -repoPath $repoPath -tunnelPortNumber $tunnelPortNumber" /sc onlogon /rl highest /f /it /RU $username
+schtasks /create /tn "RunScriptAtLogon" /tr "powershell.exe -File $launchServer -setupPath $setupPath -repoPath $repoPath -tunnelPortNumber $tunnelPortNumber" /sc onlogon /rl highest /f /it /RU $autoLoginUsername
 
 Restart-Computer -Force
