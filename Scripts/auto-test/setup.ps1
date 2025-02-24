@@ -34,11 +34,7 @@ $ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri https://aka.ms/
 
 Write-Output "Setting up Windows auto-logon..."
 $scriptPath = ".\setup-autologon.ps1"
-$process = Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`" -autoLoginUsername `"$autoLoginUsername`" -autoLoginPasswordSecretKey `"$autoLoginPasswordSecretKey`" -keyvaultName `"$keyvaultName`" -managedIdentityClientId `"$managedIdentityClientId`"" -Wait -PassThru
-
-$process.WaitForExit()
-$output = Get-Content -Path $process.StandardOutput.BaseStream
-Write-Output $output
+Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`" -autoLoginUsername `"$autoLoginUsername`" -autoLoginPasswordSecretKey `"$autoLoginPasswordSecretKey`" -keyvaultName `"$keyvaultName`" -managedIdentityClientId `"$managedIdentityClientId`"" -Wait
 
 Write-Output "Installing dev tunnel..."
 Invoke-WebRequest -Uri https://aka.ms/TunnelsCliDownload/win-x64 -OutFile devtunnel.exe
