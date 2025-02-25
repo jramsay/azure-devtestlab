@@ -5,14 +5,9 @@ param (
 # Create uxauto.json file in the user's profile directory
 $uxautoContent = @"
 {
-    // To find the monitor number, run the server and navigate to http://localhost:5000/monitor_info
-    // Leave this unset to use the primary monitor (which is not necessarily monitor 0)
-    //"monitor": 0,
-    "vstest": {
-        "condaPath": "C:\\ProgramData\\miniconda3\\condabin\\conda.bat",
-        "condaEnv": "uitesting",
-        "scriptPath": "$repoPath\\agent_runner.py"
-    }
+    "monitor": 0,
+    "enable_safety_agent": false,
+    "vstest" : {}
 }
 "@
 

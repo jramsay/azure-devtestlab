@@ -6,6 +6,11 @@ param (
 
 Set-Location -Path $setupPath
 
+Write-Output "Creating uxauto.json"
+$createUXAuto = "$setupPath\create-uxauto.ps1"
+Invoke-Expression -Command $createUXAuto
+Write-Output "uxauto.json created."
+
 Write-Output "Installing python..."
 $installPython = "$setupPath\install-python.ps1"
 Invoke-Expression -Command $installPython

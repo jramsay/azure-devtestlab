@@ -11,4 +11,4 @@ taskkill /f /im python.exe
 uv sync
 .venv\Scripts\activate
 
-py -m flask --app test_engine.server.server run > server-log.txt 2>&1
+py -m flask --app test_engine.server.server run

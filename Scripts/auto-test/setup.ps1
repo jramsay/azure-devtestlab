@@ -36,6 +36,13 @@ Write-Output "Setting up Windows auto-logon..."
 $scriptPath = ".\setup-autologon.ps1"
 Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`" -autoLoginUsername `"$autoLoginUsername`" -autoLoginPasswordSecretKey `"$autoLoginPasswordSecretKey`" -keyvaultName `"$keyvaultName`" -managedIdentityClientId `"$managedIdentityClientId`"" -Wait
 
+Write-Output "Installing dotnet 8..."
+$dotnetInstallerUrl = "https://download.visualstudio.microsoft.com/download/pr/bd44cdb8-dcac-4f1f-8246-1ee392c68dac/ba818a6e513c305d4438c7da45c2b085/dotnet-sdk-8.0.406-win-x64.exe"
+$installerPath = "$env:TEMP\dotnet-sdk-8.0.406-win-x64.exe"
+Invoke-WebRequest -Uri $dotnetInstallerUrl -OutFile $installerPath
+Start-Process -FilePath $installerPath -ArgumentList "/quiet" -NoNewWindow -Wait
+Remove-Item -Path $installerPath -Force
+
 Write-Output "Installing dev tunnel..."
 Invoke-WebRequest -Uri https://aka.ms/TunnelsCliDownload/win-x64 -OutFile devtunnel.exe
 
