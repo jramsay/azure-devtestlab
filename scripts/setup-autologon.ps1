@@ -5,14 +5,11 @@ param (
     [string]$managedIdentityClientId
 )
 
-# TODO: resolve issue with retrieving password from KV
-# Log the output of az login
-# Write-Output "Running az login..."
-# az login --identity --client-id $managedIdentityClientId 2>&1
-# Log the output of az keyvault secret show
-# Write-Output "Retrieving secret from Key Vault..."
-#$password = az keyvault secret show --name $autoLoginPasswordSecretKey --vault-name $keyvaultName --query value -o tsv 2>&1
-$password = $autoLoginPasswordSecretKey
+Write-Output "Running az login..."
+az login --identity --client-id $managedIdentityClientId 2>&1
+
+Write-Output "Retrieving secret from Key Vault..."
+$password = az keyvault secret show --name $autoLoginPasswordSecretKey --vault-name $keyvaultName --query value -o tsv 2>&1
 
 $registryPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 Set-ItemProperty -Path $registryPath -Name "DefaultUserName" -Value $autoLoginUsername
