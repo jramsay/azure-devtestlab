@@ -8,8 +8,8 @@ Invoke-WebRequest -Uri $url -OutFile $output
 Start-Process -FilePath $output -ArgumentList "--passive" -Wait
 
 $vsPath = "C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\IDE\devenv.exe"
-$desktop = [System.Environment]::GetFolderPath("Desktop")
-$shortcutPath = [System.IO.Path]::Combine($desktop, "Visual Studio 2022.lnk")
+$publicDesktop = [System.Environment]::GetFolderPath("CommonDesktopDirectory")
+$shortcutPath = [System.IO.Path]::Combine($publicDesktop, "Visual Studio 2022.lnk")
 $wshShell = New-Object -ComObject WScript.Shell
 $shortcut = $wshShell.CreateShortcut($shortcutPath)
 $shortcut.TargetPath = $vsPath
