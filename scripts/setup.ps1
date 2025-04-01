@@ -20,6 +20,10 @@ Write-Output "Store KV info to be used by other scripts."
 [System.Environment]::SetEnvironmentVariable("keyvaultName", $keyvaultName, [System.EnvironmentVariableTarget]::Machine)
 [System.Environment]::SetEnvironmentVariable("managedIdentityClientId", $managedIdentityClientId, [System.EnvironmentVariableTarget]::Machine)
 
+$srcRootPath = Split-Path -Path $repoPath -Parent
+$nugetConfigPath = Join-Path -Path $srcRootPath -ChildPath "NuGet.config"
+Remove-Item -Path $nugetConfigPath
+
 Write-Output "Copying files to setup directory..."
 $sourceDirectory = Get-Location
 $destinationDirectory = $setupPath
