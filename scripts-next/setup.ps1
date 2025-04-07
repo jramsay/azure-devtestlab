@@ -28,8 +28,8 @@ if (-Not (Test-Path -Path $destinationDirectory)) {
     New-Item -ItemType Directory -Path $destinationDirectory
 }
 Copy-Item -Path "$sourceDirectory\*" -Destination $destinationDirectory -Recurse
-Set-Location -Path $setupPath
 
+Set-Location -Path "C:\"
 Write-Output "Installing Azure CLI.."
 $ProgressPreference = 'SilentlyContinue';
 Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi;
@@ -42,6 +42,7 @@ az login --identity --client-id $managedIdentityClientId
 $accessToken=$(az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv)
 git -c http.extraheader="AUTHORIZATION: bearer $accessToken" clone $repoUri
 
+Set-Location -Path $setupPath
 Write-Output "Setting up Windows auto-logon..."
 $scriptPath = ".\setup-autologon.ps1"
 Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`" -autoLoginUsername `"$autoLoginUsername`" -autoLoginPasswordSecretKey `"$autoLoginPasswordSecretKey`" -keyvaultName `"$keyvaultName`" -managedIdentityClientId `"$managedIdentityClientId`"" -Wait
