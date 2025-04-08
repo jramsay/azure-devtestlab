@@ -19,4 +19,8 @@ Write-Output "Starting dev tunnel..."
 $launchDevTunnel = "$setupPath\launch-devtunnel.ps1"
 Start-Process powershell -ArgumentList "-File `"$launchDevTunnel`" -setupPath `"$setupPath`" -portNumber $tunnelPortNumber" -NoNewWindow -PassThru -RedirectStandardOutput "tunnel.txt"
 
+Write-Output "Minimize windows..."
+$minimize = "$setupPath\minimize-windows.ps1"
+Start-Process powershell -ArgumentList "-File `"$minimize`""
+
 py -m flask --app test_engine.server.server run

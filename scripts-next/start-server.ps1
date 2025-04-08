@@ -15,7 +15,3 @@ Get-Process -Name "Powershell", "DevTunnel" | Where-Object { $_.ID -ne $PID } | 
 Write-Output "Launching server..."
 $launchServer = "$setupPath\launch-server.ps1"
 Start-Process powershell -ArgumentList "-NoExit -File `"$launchServer`" -setupPath `"$setupPath`" -repoPath `"$repoPath`" -tunnelPortNumber `"$tunnelPortNumber`""
-
-Write-Output "Minimize windows..."
-$minimize = "$setupPath\minimize-windows.ps1"
-Invoke-Expression -Command $minimize
