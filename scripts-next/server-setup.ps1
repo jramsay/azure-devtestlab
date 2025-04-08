@@ -4,6 +4,15 @@ param (
     [int32]$tunnelPortNumber
 )
 
+# Disable OneDrive Windows Backup dialog
+$registryPath = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings\Microsoft.SkyDrive.Desktop"
+$propertyName = "Enabled"
+$propertyValue = 0
+if (-not (Test-Path $registryPath)) {
+    New-Item -Path $registryPath -Force
+}
+Set-ItemProperty -Path $registryPath -Name $propertyName -Value $propertyValue
+
 Set-Location -Path $setupPath
 
 Write-Output "Creating uxauto.json"
