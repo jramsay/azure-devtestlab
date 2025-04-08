@@ -30,3 +30,6 @@ if (-not (Test-Path $privacyPoliciesRegistryPath)) {
     New-Item -Path $privacyPoliciesRegistryPath -Force
 }
 New-ItemProperty -Path $privacyPoliciesRegistryPath -Name $disablePrivacy -Value 1 -PropertyType DWord -Force
+
+# Disable Windows Backup dialog
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsBackup" -Name "DisableMonitoring" -Value 1 -PropertyType DWORD
