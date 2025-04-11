@@ -13,6 +13,10 @@ if (-not (Test-Path $registryPath)) {
 }
 Set-ItemProperty -Path $registryPath -Name $propertyName -Value $propertyValue
 
+Write-Output "Build Automation Tree Provider"
+$AUTOMATION_TREE_PROJECT_PATH = Join-Path -Path $repoPath -ChildPath "AutomationTreeProvider\AutomationTreeProvider"
+Start-Process -FilePath "dotnet" -ArgumentList "build", $AUTOMATION_TREE_PROJECT_PATH -NoNewWindow -Wait
+
 Set-Location -Path $setupPath
 
 Write-Output "Creating uxauto.json"
