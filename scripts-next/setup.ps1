@@ -42,6 +42,14 @@ az login --identity --client-id $managedIdentityClientId
 $accessToken=$(az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv)
 git -c http.extraheader="AUTHORIZATION: bearer $accessToken" clone $repoUri
 
+Write-Output "Removing NuGet.config"
+$relativeNuGetPath = "..\NuGet.config"
+$fullNuGetPath = Join-Path -Path $repoPath -ChildPath $relativeNuGetPath
+$resolvedNuGetPath = Resolve-Path $fullNuGetPath -ErrorAction SilentlyContinue
+if ($resolvedNuGetPath) {
+    Remove-Item -Path $resolvedNuGetPath -Force
+}
+
 Set-Location -Path $setupPath
 Write-Output "Setting up Windows auto-logon..."
 $scriptPath = ".\setup-autologon.ps1"
