@@ -30,3 +30,4 @@ if (-not (Test-Path $privacyPoliciesRegistryPath)) {
     New-Item -Path $privacyPoliciesRegistryPath -Force
 }
 New-ItemProperty -Path $privacyPoliciesRegistryPath -Name $disablePrivacy -Value 1 -PropertyType DWord -Force
+

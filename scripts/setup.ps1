@@ -6,6 +6,7 @@ param (
     [string]$azurePortalMFASecretKey,
     [string]$keyvaultName,
     [string]$managedIdentityClientId,
+    [string]$repoUri,
     [string]$setupPath,
     [string]$repoPath,
     [int32]$tunnelPortNumber = 5000
@@ -20,10 +21,6 @@ Write-Output "Store KV info to be used by other scripts."
 [System.Environment]::SetEnvironmentVariable("keyvaultName", $keyvaultName, [System.EnvironmentVariableTarget]::Machine)
 [System.Environment]::SetEnvironmentVariable("managedIdentityClientId", $managedIdentityClientId, [System.EnvironmentVariableTarget]::Machine)
 
-$srcRootPath = Split-Path -Path $repoPath -Parent
-$nugetConfigPath = Join-Path -Path $srcRootPath -ChildPath "NuGet.config"
-Remove-Item -Path $nugetConfigPath
-
 Write-Output "Copying files to setup directory..."
 $sourceDirectory = Get-Location
 $destinationDirectory = $setupPath
@@ -31,14 +28,29 @@ if (-Not (Test-Path -Path $destinationDirectory)) {
     New-Item -ItemType Directory -Path $destinationDirectory
 }
 Copy-Item -Path "$sourceDirectory\*" -Destination $destinationDirectory -Recurse
-Set-Location -Path $setupPath
 
+Set-Location -Path "C:\"
 Write-Output "Installing Azure CLI.."
 $ProgressPreference = 'SilentlyContinue';
 Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi;
-Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet';\
+Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet';
 Remove-Item .\AzureCLI.msi
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
 
+Write-Output "Cloning the repo"
+az login --identity --client-id $managedIdentityClientId
+$accessToken=$(az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv)
+git -c http.extraheader="AUTHORIZATION: bearer $accessToken" clone $repoUri
+
+Write-Output "Removing NuGet.config"
+$relativeNuGetPath = "..\NuGet.config"
+$fullNuGetPath = Join-Path -Path $repoPath -ChildPath $relativeNuGetPath
+$resolvedNuGetPath = Resolve-Path $fullNuGetPath -ErrorAction SilentlyContinue
+if ($resolvedNuGetPath) {
+    Remove-Item -Path $resolvedNuGetPath -Force
+}
+
+Set-Location -Path $setupPath
 Write-Output "Setting up Windows auto-logon..."
 $scriptPath = ".\setup-autologon.ps1"
 Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`" -autoLoginUsername `"$autoLoginUsername`" -autoLoginPasswordSecretKey `"$autoLoginPasswordSecretKey`" -keyvaultName `"$keyvaultName`" -managedIdentityClientId `"$managedIdentityClientId`"" -Wait
@@ -54,7 +66,7 @@ Write-Output "Installing dev tunnel..."
 Invoke-WebRequest -Uri https://aka.ms/TunnelsCliDownload/win-x64 -OutFile devtunnel.exe
 
 Write-Output "Create a scheduled task to launch the server & tunnel after autologon"
-$launchServer = "$setupPath\launch-server-and-tunnel.ps1"
-schtasks /create /tn "RunScriptAtLogon" /tr "powershell.exe -File $launchServer -setupPath $setupPath -repoPath $repoPath -tunnelPortNumber $tunnelPortNumber" /sc onlogon /rl highest /f /it /RU $autoLoginUsername
+$serverSetup = "$setupPath\server-setup.ps1"
+schtasks /create /tn "RunScriptAtLogon" /tr "powershell.exe -File $serverSetup -setupPath $setupPath -repoPath $repoPath -tunnelPortNumber $tunnelPortNumber" /sc onlogon /rl highest /f /it /RU $autoLoginUsername
 
 Restart-Computer -Force
