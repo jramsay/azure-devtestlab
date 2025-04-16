@@ -6,9 +6,6 @@ param (
 
 Set-Location -Path $repoPath
 
-$env:UV_HTTP_TIMEOUT=350
-$env:Path = "C:\Users\$env:USERNAME\.local\bin;$env:Path"
-
 taskkill /f /im python.exe
 .venv\Scripts\activate
 
@@ -20,4 +17,4 @@ Write-Output "Minimize windows..."
 $minimize = "$setupPath\minimize-windows.ps1"
 Start-Process powershell -ArgumentList "-File `"$minimize`""
 
-py -m flask --app test_engine.server.server run
+uv run flask --app test_engine.server.server run

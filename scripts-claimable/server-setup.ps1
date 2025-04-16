@@ -5,6 +5,20 @@ param (
     [int32]$tunnelPortNumber
 )
 
+# Disable OneDrive Windows Backup dialog
+$registryPath = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings\Microsoft.SkyDrive.Desktop"
+$propertyName = "Enabled"
+$propertyValue = 0
+if (-not (Test-Path $registryPath)) {
+    New-Item -Path $registryPath -Force
+}
+Set-ItemProperty -Path $registryPath -Name $propertyName -Value $propertyValue
+
+Write-Output "Creating uxauto.json"
+$createUXAuto = "$setupPath\create-uxauto.ps1"
+Invoke-Expression -Command $createUXAuto
+Write-Output "uxauto.json created."
+
 Write-Output "Build Automation Tree Provider"
 $AUTOMATION_TREE_PROJECT_PATH = Join-Path -Path $repoPath -ChildPath "AutomationTreeProvider\AutomationTreeProvider"
 Start-Process -FilePath "dotnet" -ArgumentList "build", $AUTOMATION_TREE_PROJECT_PATH -NoNewWindow -Wait
@@ -27,10 +41,17 @@ Set-ExecutionPolicy RemoteSigned -Scope LocalMachine
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 
 Write-Output "Complete server prelaunch tasks"
-$serverPrelaunch = "$setupPath\server-prelaunch.ps1"
-Start-Process powershell -ArgumentList "-File `"$serverPrelaunch`" -repoPath `"$repoPath`""
+Set-Location -Path $repoPath
+$env:UV_HTTP_TIMEOUT=350
+uv sync
+.venv\Scripts\activate
+uv run playwright install
 
 Write-Output "Create a scheduled task to start server"
 schtasks /delete /tn "RunSetupScriptAtLogon" /f
 $resetServer = "$setupPath\reset-server.ps1"
 schtasks /create /tn "RunStartServerAtLogon" /tr "powershell.exe -File $resetServer -setupPath $setupPath -repoPath $repoPath -tunnelPortNumber $tunnelPortNumber" /sc onlogon /rl highest /f /it /RU $autoLoginUsername
+
+Write-Output "Signal that user setup is complete"
+$filePath = "$setupPath\setup-complete.signal"
+New-Item -Path $filePath -ItemType File -Force
