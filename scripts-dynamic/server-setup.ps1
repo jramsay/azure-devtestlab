@@ -37,6 +37,6 @@ Set-ExecutionPolicy RemoteSigned -Scope LocalMachine
 [Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\Python312", "Machine")
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 
-Write-Output "Start server and tunnel..."
-$startServer = "$setupPath\start-server.ps1"
-Start-Process powershell -ArgumentList "-File `"$startServer`" -setupPath `"$setupPath`" -repoPath `"$repoPath`" -tunnelPortNumber `"$tunnelPortNumber`""
+Write-Output "Complete server prelaunch tasks"
+$serverPrelaunch = "$setupPath\server-prelaunch.ps1"
+Start-Process powershell -ArgumentList "-File `"$serverPrelaunch`" -setupPath `"$setupPath`" -repoPath `"$repoPath`" -tunnelPortNumber `"$tunnelPortNumber`""
