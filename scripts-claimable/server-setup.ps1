@@ -1,4 +1,5 @@
 param (
+    [string]$autoLoginUsername,
     [string]$setupPath,
     [string]$repoPath,
     [int32]$tunnelPortNumber
@@ -28,3 +29,8 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 Write-Output "Complete server prelaunch tasks"
 $serverPrelaunch = "$setupPath\server-prelaunch.ps1"
 Start-Process powershell -ArgumentList "-File `"$serverPrelaunch`" -repoPath `"$repoPath`""
+
+Write-Output "Create a scheduled task to start server"
+schtasks /delete /tn "RunSetupScriptAtLogon" /f
+$resetServer = "$setupPath\reset-server.ps1"
+schtasks /create /tn "RunStartServerAtLogon" /tr "powershell.exe -File $resetServer -setupPath $setupPath -repoPath $repoPath -tunnelPortNumber $tunnelPortNumber" /sc onlogon /rl highest /f /it /RU $autoLoginUsername

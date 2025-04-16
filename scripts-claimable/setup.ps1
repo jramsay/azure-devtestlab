@@ -67,4 +67,4 @@ Invoke-WebRequest -Uri https://aka.ms/TunnelsCliDownload/win-x64 -OutFile devtun
 
 Write-Output "Create a scheduled task to launch user setup tasks"
 $userSetup = "$setupPath\user-setup.ps1"
-schtasks /create /tn "RunScriptAtLogon" /tr "powershell.exe -File $userSetup -setupPath $setupPath" /sc onlogon /rl highest /f /it /RU $autoLoginUsername
+schtasks /create /tn "RunSetupScriptAtLogon" /tr "powershell.exe -File $userSetup -setupPath $setupPath" /sc onlogon /rl highest /f /it /RU $autoLoginUsername
