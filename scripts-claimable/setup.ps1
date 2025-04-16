@@ -67,4 +67,4 @@ Invoke-WebRequest -Uri https://aka.ms/TunnelsCliDownload/win-x64 -OutFile devtun
 
 Write-Output "Create a scheduled task to launch server setup tasks"
 $serverSetup = "$setupPath\server-setup.ps1"
-schtasks /create /tn "RunSetupScriptAtLogon" /tr "powershell.exe -File $serverSetup -setupPath $setupPath -repoPath $repoPath -tunnelPortNumber $tunnelPortNumber" /sc onlogon /rl highest /f /it /RU $autoLoginUsername
+schtasks /create /tn "RunSetupScriptAtLogon" /tr "powershell.exe -File $serverSetup -setupPath $setupPath -repoPath $repoPath -tunnelPortNumber $tunnelPortNumber -autoLoginUsername $autoLoginUsername" /sc onlogon /rl highest /f /it /RU $autoLoginUsername
