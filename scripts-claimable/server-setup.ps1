@@ -4,25 +4,11 @@ param (
     [int32]$tunnelPortNumber
 )
 
-# Disable OneDrive Windows Backup dialog
-$registryPath = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings\Microsoft.SkyDrive.Desktop"
-$propertyName = "Enabled"
-$propertyValue = 0
-if (-not (Test-Path $registryPath)) {
-    New-Item -Path $registryPath -Force
-}
-Set-ItemProperty -Path $registryPath -Name $propertyName -Value $propertyValue
-
 Write-Output "Build Automation Tree Provider"
 $AUTOMATION_TREE_PROJECT_PATH = Join-Path -Path $repoPath -ChildPath "AutomationTreeProvider\AutomationTreeProvider"
 Start-Process -FilePath "dotnet" -ArgumentList "build", $AUTOMATION_TREE_PROJECT_PATH -NoNewWindow -Wait
 
 Set-Location -Path $setupPath
-
-Write-Output "Creating uxauto.json"
-$createUXAuto = "$setupPath\create-uxauto.ps1"
-Invoke-Expression -Command $createUXAuto
-Write-Output "uxauto.json created."
 
 Write-Output "Installing python..."
 $installPython = "$setupPath\install-python.ps1"
@@ -30,8 +16,10 @@ Invoke-Expression -Command $installPython
 Write-Output "Python installation completed."
 
 Write-Output "Installing uv..."
+$env:UV_INSTALL_DIR="C:\Program Files\uv"
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 Write-Output "UV installation completed."
+$env:Path = "C:\Program Files\uv;$env:Path"
 
 Set-ExecutionPolicy RemoteSigned -Scope LocalMachine
 [Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\Python312", "Machine")
@@ -39,4 +27,4 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 
 Write-Output "Complete server prelaunch tasks"
 $serverPrelaunch = "$setupPath\server-prelaunch.ps1"
-Start-Process powershell -ArgumentList "-File `"$serverPrelaunch`" -setupPath `"$setupPath`" -repoPath `"$repoPath`" -tunnelPortNumber `"$tunnelPortNumber`""
+Start-Process powershell -ArgumentList "-File `"$serverPrelaunch`" -repoPath `"$repoPath`""

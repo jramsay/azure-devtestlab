@@ -64,3 +64,7 @@ Remove-Item -Path $installerPath -Force
 
 Write-Output "Installing dev tunnel..."
 Invoke-WebRequest -Uri https://aka.ms/TunnelsCliDownload/win-x64 -OutFile devtunnel.exe
+
+Write-Output "Create a scheduled task to launch user setup tasks"
+$userSetup = "$setupPath\user-setup.ps1"
+schtasks /create /tn "RunScriptAtLogon" /tr "powershell.exe -File $userSetup -setupPath $setupPath" /sc onlogon /rl highest /f /it /RU $autoLoginUsername
