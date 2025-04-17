@@ -52,6 +52,9 @@ schtasks /delete /tn "RunSetupScriptAtLogon" /f
 $resetServer = "$setupPath\reset-server.ps1"
 schtasks /create /tn "RunStartServerAtLogon" /tr "powershell.exe -File $resetServer -setupPath $setupPath -repoPath $repoPath -tunnelPortNumber $tunnelPortNumber" /sc onlogon /rl highest /f /it /RU $autoLoginUsername
 
+Write-Output "Start server & tunnel."
+Start-Process powershell -ArgumentList "-File `"$resetServer`" -setupPath `"$setupPath`" -repoPath `"$repoPath`" --tunnelPortNumber $tunnelPortNumber"
+
 Write-Output "Signal that user setup is complete"
 $filePath = "$setupPath\setup-complete.signal"
 New-Item -Path $filePath -ItemType File -Force
