@@ -14,6 +14,11 @@ if (-not (Test-Path $registryPath)) {
 }
 Set-ItemProperty -Path $registryPath -Name $propertyName -Value $propertyValue
 
+# Set the desktop background to black
+Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "WallPaper" -Value ""
+Set-ItemProperty -Path "HKCU:\Control Panel\Colors" -Name "Background" -Value "0 0 0"
+RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters
+
 Write-Output "Creating uxauto.json"
 $createUXAuto = "$setupPath\create-uxauto.ps1"
 Invoke-Expression -Command $createUXAuto
