@@ -42,6 +42,9 @@ az login --identity --client-id $managedIdentityClientId
 $accessToken=$(az account get-access-token --resource 499b84ac-1321-427f-aa17-267ca6975798 --query "accessToken" --output tsv)
 git -c http.extraheader="AUTHORIZATION: bearer $accessToken" clone $repoUri
 
+[System.Environment]::SetEnvironmentVariable("UV_INDEX_AUTONOMOUSTESTING_USERNAME", "VssSessionToken", [System.EnvironmentVariableTarget]::Machine)
+[System.Environment]::SetEnvironmentVariable("UV_INDEX_AUTONOMOUSTESTING_PASSWORD", $accessToken, [System.EnvironmentVariableTarget]::Machine)
+
 Write-Output "Removing NuGet.config"
 $relativeNuGetPath = "..\NuGet.config"
 $fullNuGetPath = Join-Path -Path $repoPath -ChildPath $relativeNuGetPath

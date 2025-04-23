@@ -48,7 +48,7 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 Write-Output "Complete server prelaunch tasks"
 Set-Location -Path $repoPath
 $env:UV_HTTP_TIMEOUT=350
-uv sync
+uv sync --frozen
 .venv\Scripts\activate
 uv run playwright install
 
