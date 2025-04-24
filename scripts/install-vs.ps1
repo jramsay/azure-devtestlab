@@ -5,7 +5,7 @@ $output = [System.IO.Path]::Combine($tempDir, "vs_community.exe")
 $ProgressPreference = 'SilentlyContinue'
 Invoke-WebRequest -Uri $url -OutFile $output
 
-Start-Process -FilePath $output -ArgumentList "--add Microsoft.VisualStudio.Workload.NativeDesktop --add Microsoft.VisualStudio.Workload.NativeCrossPlat --includeRecommended --includeOptional --passive" -Wait
+Start-Process -FilePath $output -ArgumentList "--add Microsoft.VisualStudio.Workload.NativeDesktop --add Microsoft.VisualStudio.Workload.NativeCrossPlat --add Microsoft.VisualStudio.Workload.ManagedDesktop --includeRecommended --includeOptional --passive" -Wait
 
 $vsPath = "C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\IDE\devenv.exe"
 $publicDesktop = [System.Environment]::GetFolderPath("CommonDesktopDirectory")
